@@ -157,7 +157,7 @@ def coq_raw_query(*args):
         info_msg = response.err.text
         print("FAIL")
     else:
-        print("(ANOMALY) unknown answer: %s" % ET.tostring(response)) # ugly
+        print(("(ANOMALY) unknown answer: %s" % ET.tostring(response))) # ugly
 
     show_info()
 
@@ -169,7 +169,7 @@ def debug():
     if encountered_dots:
         print("encountered dots = [")
         for (line, col) in encountered_dots:
-            print("  (%d, %d) ; " % (line, col))
+            print(("  (%d, %d) ; " % (line, col)))
         print("]")
 
 #####################################
@@ -220,11 +220,11 @@ def show_goal():
         if idx == 0:
             # we print the environment only for the current subgoal
             for hyp in hyps:
-                lst = map(lambda s: s.encode('utf-8'), hyp.split('\n'))
+                lst = [s.encode('utf-8') for s in hyp.split('\n')]
                 buff.append(lst)
         buff.append('')
         buff.append('======================== ( %d / %d )' % (idx+1 , nb_subgoals))
-        lines = map(lambda s: s.encode('utf-8'), ccl.split('\n'))
+        lines = [s.encode('utf-8') for s in ccl.split('\n')]
         buff.append(lines)
         buff.append('')
 
@@ -240,7 +240,7 @@ def show_info():
     del buff[:]
     if info_msg is not None:
         lst = info_msg.split('\n')
-        buff.append(map(lambda s: s.encode('utf-8'), lst))
+        buff.append([s.encode('utf-8') for s in lst])
 
 def clear_info():
     global info_msg
@@ -291,7 +291,7 @@ def rewind_to(line, col):
         return
 
     predicate = lambda x: x <= (line, col)
-    lst = filter(predicate, encountered_dots)
+    lst = list(filter(predicate, encountered_dots))
     steps = len(encountered_dots) - len(lst)
     coq_rewind(steps)
 
@@ -346,7 +346,7 @@ def send_until_fail():
                     (l_stop, c_stop)   = _pos_from_offset(c, message, loc_e)
                     error_at = ((l + l_start, c_start), (l + l_stop, c_stop))
             else:
-                print("(ANOMALY) unknown answer: %s" % ET.tostring(response))
+                print(("(ANOMALY) unknown answer: %s" % ET.tostring(response)))
             break
 
     refresh()

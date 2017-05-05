@@ -29,7 +29,7 @@ def parse_response(xml):
     if xml.get('val') == 'good':
         return Ok(parse_value(xml[0]), None)
     elif xml.get('val') == 'fail':
-        print('err: %s' % ET.tostring(xml))
+        print(('err: %s' % ET.tostring(xml)))
         return Err(parse_error(xml))
     else:
         assert False, 'expected "good" or "fail" in <value>'
@@ -69,19 +69,19 @@ def parse_value(xml):
         else:
             assert False, 'expected "in_l" or "in_r" in <union>'
     elif xml.tag == 'option_state':
-        sync, depr, name, value = map(parse_value, xml)
+        sync, depr, name, value = list(map(parse_value, xml))
         return OptionState(sync, depr, name, value)
     elif xml.tag == 'option_value':
         return OptionValue(parse_value(xml[0]))
     elif xml.tag == 'status':
-        path, proofname, allproofs, proofnum = map(parse_value, xml)
+        path, proofname, allproofs, proofnum = list(map(parse_value, xml))
         return Status(path, proofname, allproofs, proofnum)
     elif xml.tag == 'goals':
-        return Goals(*map(parse_value, xml))
+        return Goals(*list(map(parse_value, xml)))
     elif xml.tag == 'goal':
-        return Goal(*map(parse_value, xml))
+        return Goal(*list(map(parse_value, xml)))
     elif xml.tag == 'evar':
-        return Evar(*map(parse_value, xml))
+        return Evar(*list(map(parse_value, xml)))
     elif xml.tag == 'xml' or xml.tag == 'richpp':
         return ''.join(xml.itertext())
 
