@@ -217,6 +217,7 @@ def restart_coq(*args):
               , stdin = subprocess.PIPE
               , stdout = subprocess.PIPE
               , stderr = subprocess.STDOUT
+              , bufsize = 0
             )
         else:
             coqtop = subprocess.Popen(
@@ -224,6 +225,7 @@ def restart_coq(*args):
               , stdin = subprocess.PIPE
               , stdout = subprocess.PIPE
               , preexec_fn = ignore_sigint
+              , bufsize = 0
             )
 
         r = call('Init', Option(None))
