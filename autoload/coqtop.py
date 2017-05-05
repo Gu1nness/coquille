@@ -165,7 +165,7 @@ def get_answer():
     data = ''
     while True:
         try:
-            data += os.read(fd, 0x4000)
+            data += str(os.read(fd, 0x4000))
             try:
                 elt = ET.fromstring('<coqtoproot>' + escape(data) + '</coqtoproot>')
                 shouldWait = True
