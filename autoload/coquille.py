@@ -198,6 +198,10 @@ def show_goal():
         print('ERROR: the Coq process died')
         return
 
+    if isinstance(response, CT.Err):
+        buff.append('Error state.')
+        return
+
     if response.msg is not None:
         info_msg = response.msg
 

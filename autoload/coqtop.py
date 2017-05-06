@@ -86,7 +86,11 @@ def parse_value(xml):
         return ''.join(xml.itertext())
 
 def parse_error(xml):
-    return ET.fromstring(re.sub(r"<state_id val=\"\d+\" />", '', ET.tostring(xml)))
+    state_id = xml.findall("state_id")[0]
+    err_msg = state_id.tail.strip()
+    xml.remove(state_id)
+    xml.text = err_msg
+    return xml
 
 def build(tag, val=None, children=()):
     attribs = {'val': val} if val is not None else {}
